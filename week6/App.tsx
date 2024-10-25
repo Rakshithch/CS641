@@ -11,7 +11,7 @@ export default function App() {
       <StatusBar style="auto" />
     </View>*/
     //<RefreshControlExample />
-    <FlatListExample />
+    <FlatListExample /> 
     //<ModalExamples />
   );
 }
