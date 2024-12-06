@@ -8,18 +8,20 @@ import {
   Alert,
   useColorScheme,
 } from "react-native";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
-import { db } from "../firebaseConfig";
+import { useRouter } from "expo-router"; // Updated to use Expo Router
+import { auth, db } from "../../firebaseConfig";
 
-export default function RegisterScreen({ navigation }) {
+export default function RegisterScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const auth = getAuth();
+  const router = useRouter(); // Use Expo Router
   const colorScheme = useColorScheme(); // Detect system theme
 
   const handleSignUp = async () => {
     try {
+      // Create user with email and password
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
@@ -27,14 +29,20 @@ export default function RegisterScreen({ navigation }) {
       );
       const user = userCredential.user;
 
+      // Set display name for the user
+      const displayName = email.split("@")[0]; // Default to email prefix
+      await updateProfile(user, { displayName });
+
       // Create Firestore document for the user
       await setDoc(doc(db, "users", user.uid), {
         email: user.email,
-        displayName: user.email.split("@")[0], // Use prefix of email
+        displayName,
         avatarUrl: "",
       });
 
-      navigation.navigate("welcome");
+      // Show success message and navigate to welcome screen
+      Alert.alert("Registration Successful", "Welcome to ChatConnect!");
+      router.replace("/(tabs)/welcome"); // Navigate to the welcome screen
     } catch (error) {
       console.error("Error during sign-up:", error.message);
       Alert.alert("Sign-Up Failed", error.message);
