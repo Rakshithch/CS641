@@ -1,7 +1,7 @@
 import { Slot } from "expo-router";
 import { useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../firebaseConfig"; // Adjust the path as needed
+import { auth } from "../firebaseConfig"; 
 import { ActivityIndicator, View, StyleSheet, Text } from "react-native";
 
 export default function RootLayout() {
@@ -9,10 +9,10 @@ export default function RootLayout() {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, () => {
-      setIsAuthChecking(false); // Mark the auth check as complete
+      setIsAuthChecking(false); 
     });
 
-    return unsubscribe; // Cleanup listener
+    return unsubscribe; 
   }, []);
 
   if (isAuthChecking) {

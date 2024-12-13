@@ -18,11 +18,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#000", // Explicitly set background color for dark mode
+    backgroundColor: "#000", 
   },
   title: {
     fontSize: 24,
     marginBottom: 20,
-    color: "#fff", // Set text color to white for visibility in dark mode
+    color: "#fff",
   },
 });
